@@ -3,13 +3,15 @@ package Testing.Testing;
 import DS.Graph;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import javax.swing.*;
 
-public class TestGUI_Graph extends JPanel {
+public class TestGUI_Graph extends JPanel implements MouseListener, MouseMotionListener {
 
     private Graph G;
 
-//    float d = 0;
     int n = 6;
 
     private static JFrame frame;
@@ -19,6 +21,8 @@ public class TestGUI_Graph extends JPanel {
     int ORIG_Y = 0;
 
     public TestGUI_Graph() {
+        addMouseListener(this);
+        addMouseMotionListener(this);
 
         Character labels[] = new Character[5];
         for (char c = 'a'; c <= 'e'; c++)
@@ -85,6 +89,31 @@ public class TestGUI_Graph extends JPanel {
     public void fillOvalD(Graphics g, double x, double y) {
         g.fillOval((int) x, (int) y, CIRC_SIZE, CIRC_SIZE);
     }
+
+    @Override
+    public void mouseClicked(MouseEvent e) { }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if (e.getButton() == 1) {
+
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) { }
+
+    @Override
+    public void mouseEntered(MouseEvent e) { }
+
+    @Override
+    public void mouseExited(MouseEvent e) { }
+
+    @Override
+    public void mouseDragged(MouseEvent e) { }
+
+    @Override
+    public void mouseMoved(MouseEvent e) { }
 
     public static void main(String[] args) {
         frame = new JFrame("Testing Graphs");
