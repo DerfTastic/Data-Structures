@@ -14,49 +14,74 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Point2D;
-
-import static com.sun.java.accessibility.util.AWTEventMonitor.addMouseListener;
-import static com.sun.java.accessibility.util.AWTEventMonitor.addMouseMotionListener;
 
 public class GraphVisual {
 
     private Graph graph;
-    private Point2D[] vPos; // Vertex positions
+    private Point[] vPos; // Vertex positions
 
     public final static int CIRC_SIZE = 50;
 
+    // CONSTANTS
+    public final static int CIRCULAR_PLACE = 1;
+
     public GraphVisual (Graph G) {
         this.graph = G;
+        this.vPos = new Point[this.graph.length];
+        for (int i = 0; i < this.vPos.length; i++ ) { this.vPos[i] = new Point(0, 0); }
     }
+
+    /** Renders a visualization of the graph on the {@link Graphics} object.
+     * @param g The graphics visualization for the graph to be rendered on
+     */
     public void drawGraph(Graphics g) {
-        double xpos, ypos;
+        Point s, e;
+
+        // Place the nodes
+        placeNodes(g, CIRCULAR_PLACE);
 
         // Draw connections
-        for (int j = 0; j < this.graph.length; j++) {
-            for (int i = 0; i < this.graph.length; i++) {
+        for (int j = 0; j < this.vPos.length; j++) {
+            for (int i = 0; i < this.vPos.length; i++) {
                 if (this.graph.A[j][i]) {
-                    g.drawLine(
-                            (int) (g.getClipBounds().width  / 2 +  3*(g.getClipBounds().width /2)/4 * Math.cos(Math.PI/2 - j * ((2 * Math.PI) / this.graph.length))),
-                            (int) (g.getClipBounds().height / 2 + -3*(g.getClipBounds().height/2)/4 * Math.sin(Math.PI/2 - j * ((2 * Math.PI) / this.graph.length))),
-                            (int) (g.getClipBounds().width  / 2 +  3*(g.getClipBounds().width /2)/4 * Math.cos(Math.PI/2 - i * ((2 * Math.PI) / this.graph.length))),
-                            (int) (g.getClipBounds().height / 2 + -3*(g.getClipBounds().height/2)/4 * Math.sin(Math.PI/2 - i * ((2 * Math.PI) / this.graph.length)))
-                    );
+                    s = this.vPos[j];
+                    e = this.vPos[i];
+                    g.drawLine(s.x, s.y, e.x, e.y);
                 }
             }
         }
 
-        // Draw nodes and labels
+        // Actually render the nodes
+        renderNodes(g);
+    }
+
+    public void placeNodes(Graphics g, int method) {
+        switch (method) {
+        case CIRCULAR_PLACE:
+
+            double xpos, ypos;
+            Point org = new Point(g.getClipBounds().width / 2, g.getClipBounds().height / 2);
+            Point circSize = new Point( g.getClipBounds().width * 0.33, g.getClipBounds().height * 0.33 );
+            double angSteps = 2 * Math.PI / this.vPos.length;
+            for (int i = 0; i < this.vPos.length; i++) {
+                xpos = org.x + circSize.x * Math.cos( i * angSteps );
+                ypos = org.y + circSize.y * Math.sin( i * angSteps );
+                this.vPos[i].set(xpos, ypos);
+                System.out.println("Placed at: " + (int) xpos + ", " + (int) ypos);
+            }
+            break;
+        }
+    }
+
+    public void renderNodes(Graphics g) {
         String s;
-        for (int i = 0; i < this.graph.length; i++) {
-            xpos = g.getClipBounds().width / 2  +  3*(g.getClipBounds().width /2)/4 * Math.cos(Math.PI/2 - i * ((2 * Math.PI) / this.graph.length));
-            ypos = g.getClipBounds().height / 2 + -3*(g.getClipBounds().height/2)/4 * Math.sin(Math.PI/2 - i * ((2 * Math.PI) / this.graph.length));
+        for (int i = 0; i < this.vPos.length; i++) {
             g.setColor(Color.white);
-            fillOvalD(g, xpos - CIRC_SIZE/2, ypos - CIRC_SIZE/2);
+            fillOvalD(g, this.vPos[i].x - CIRC_SIZE/2, this.vPos[i].y - CIRC_SIZE/2);
             g.setColor(Color.black);
-            drawOvalD(g, xpos - CIRC_SIZE/2, ypos - CIRC_SIZE/2);
+            drawOvalD(g, this.vPos[i].x - CIRC_SIZE/2, this.vPos[i].y - CIRC_SIZE/2);
             s = this.graph.V[i].label.toString();
-            g.drawString(s, (int) (xpos - g.getFontMetrics().getStringBounds(s,g).getWidth()/2), (int) ypos + g.getFont().getSize()/2);
+            g.drawString(s, (int) (this.vPos[i].x - g.getFontMetrics().getStringBounds(s,g).getWidth()/2), (int) this.vPos[i].y + g.getFont().getSize()/2);
         }
     }
 
