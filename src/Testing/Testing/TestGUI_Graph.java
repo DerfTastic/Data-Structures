@@ -47,15 +47,21 @@ public class TestGUI_Graph extends JPanel implements MouseListener, MouseMotionL
         G.printAdjMat();
 
         Gv = new GraphVisual(G);
+        Gv.placeNodes(800, 800, GraphVisual.RANDOM_PLACE);
     }
 
     public void paintComponent (Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.BLACK);
 
+//        long start = System.nanoTime();
         Gv.drawGraph(g);
+//        long stop = System.nanoTime();
 
-        // repaint();
+//        Gv.spin += 15.0 / (stop - start);
+//        Gv.placeNodes(g, GraphVisual.CIRCULAR_PLACE);
+
+        repaint();
     }
 
     @Override
@@ -63,9 +69,7 @@ public class TestGUI_Graph extends JPanel implements MouseListener, MouseMotionL
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (e.getButton() == 1) {
-            System.out.println("gaming");
-        }
+        Gv.mousePressed(e);
     }
 
     @Override
@@ -78,16 +82,20 @@ public class TestGUI_Graph extends JPanel implements MouseListener, MouseMotionL
     public void mouseExited(MouseEvent e) { }
 
     @Override
-    public void mouseDragged(MouseEvent e) { }
+    public void mouseDragged(MouseEvent e) {
+        Gv.mouseDragged(e);
+    }
 
     @Override
-    public void mouseMoved(MouseEvent e) { }
+    public void mouseMoved(MouseEvent e) {
+        Gv.mouseMoved(e);
+    }
 
     public static void main(String[] args) {
         frame = new JFrame("Testing Graphs");
         frame.setContentPane(new TestGUI_Graph());
         frame.pack();
-        frame.setSize(400, 400);
+        frame.setSize(800, 800);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         // frame.setResizable(false);
