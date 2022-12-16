@@ -1,16 +1,30 @@
 package Visualizations;
 
+/** Graph Visual
+ *
+ * This is a class to render a Graph data structure.
+ *
+ * @author Jacob "DerfTastic"
+ * @since December 3rd, 2022
+ */
+
 import DS.Graph;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
+
+import static com.sun.java.accessibility.util.AWTEventMonitor.addMouseListener;
+import static com.sun.java.accessibility.util.AWTEventMonitor.addMouseMotionListener;
 
 public class GraphVisual {
 
     private Graph graph;
     private Point2D[] vPos; // Vertex positions
 
-    public final static int CIRC_SIZE = 25;
+    public final static int CIRC_SIZE = 50;
 
     public GraphVisual (Graph G) {
         this.graph = G;

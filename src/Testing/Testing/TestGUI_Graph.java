@@ -1,5 +1,13 @@
 package Testing.Testing;
 
+/** Test GUI Graph
+ *
+ * A runnable class to run a visualization of a graph using the {@link Visualizations.GraphVisual} class.
+ *
+ * @author Jacob "DerfTastic"
+ * @since November 28, 2022
+ */
+
 import DS.Graph;
 import Visualizations.GraphVisual;
 
@@ -20,8 +28,8 @@ public class TestGUI_Graph extends JPanel implements MouseListener, MouseMotionL
 
 
     public TestGUI_Graph() {
-        addMouseListener(this);
-        addMouseMotionListener(this);
+        this.addMouseListener(this);
+        this.addMouseMotionListener(this);
 
         Character labels[] = new Character[5];
         for (char c = 'a'; c <= 'e'; c++)
@@ -56,7 +64,7 @@ public class TestGUI_Graph extends JPanel implements MouseListener, MouseMotionL
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getButton() == 1) {
-
+            System.out.println("gaming");
         }
     }
 

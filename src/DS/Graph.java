@@ -57,8 +57,6 @@ public class Graph <E> {
         return this.A[ai][bi];
     }
 
-    public void print(Object s) {
-        System.out.print(s);
-    }
+    public void print(Object s) { System.out.print(s); }
 
 }
