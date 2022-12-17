@@ -119,13 +119,16 @@ public class GraphVisual {
     }
 
     public void mouseMoved(MouseEvent e) {
+        boolean onNothing = true;
         for (int i = 0; i < this.nodes.length; i++) {
             if (insideNode(i, e.getX(), e.getY())) {
                 this.nodes[i].color = Color.gray;
                 this.hovNode = i;
+                onNothing = false;
             } else
                 this.nodes[i].color = Color.white;
         }
+        if (onNothing) this.hovNode = -1;
     }
 
     private boolean insideNode(int index, int x, int y) {
@@ -143,6 +146,7 @@ public class GraphVisual {
     }
 
     public void mousePressed(MouseEvent e) {
-        this.nodes[hovNode].color = Color.red;
+        if (hovNode != -1)
+            this.nodes[hovNode].color = Color.red;
     }
 }
