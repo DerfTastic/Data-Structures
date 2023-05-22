@@ -6,3 +6,8 @@ Usable data structure classes are in the "DS" package in `/src/`:
 - **Binary Search Trees** (`BST.java` and `BinaryNode.java`)
 - **Graphs** (`Graph.java` and `Vertex.java`)
 - **Priority Queues** (`PQueue.java` and `PNode.java`)
+
+Visualization classes that draw a representation of the data structure in a `JFrame` window (JavaFX):
+- **Graphs** (`GraphVisual.java`)
+
+(not all the code in this directory is mine, but most of it is)
